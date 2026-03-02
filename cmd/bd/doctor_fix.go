@@ -386,6 +386,10 @@ func fixPendingMigrations(path string) error {
 				return fmt.Errorf("hook migration is blocked:\n- %s", strings.Join(execPlan.BlockingErrors, "\n- "))
 			}
 
+			for _, line := range formatHookMigrationOperations(execPlan) {
+				fmt.Printf("  %s\n", line)
+			}
+
 			summary, err := applyHookMigrationExecution(execPlan)
 			if err != nil {
 				return fmt.Errorf("applying hook migration: %w", err)
